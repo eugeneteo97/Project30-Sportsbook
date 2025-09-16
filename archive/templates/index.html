@@ -1,0 +1,26 @@
+<!-- first attempt to build a sportsbook was not easy -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sportsbook attempt 1</title>
+</head>
+<body>
+    <h1>MLB Games Today</h1>
+    <ul>
+        {% for game in games %}
+        <li>
+            {{ game.away }} @ {{ game.home }} - Status: {{ game.status }}
+            <form action="/bet" method="post" style="display:inline;">
+                <input type="hidden" name="gamePk" value="{{ game.gamePk }}">
+                <select name="team">
+                    <option value="{{ game.home }}">{{ game.home }}</option>
+                    <option value="{{ game.away }}">{{ game.away }}</option>
+                </select>
+                <input type="number" name="amount" placeholder="Bet Amount" min="1" required>
+                <button type="submit">Place Bet</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

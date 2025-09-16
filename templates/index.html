@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sportsbook Odds</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Sportsbook Odds</h1>
+    <h2>Available Sports</h2>
+    <ul>
+        {% for sport in sports %}
+            <li>{{ sport.title }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Odds for {{ sports[0].title if sports else 'N/A' }}</h2>
+    {% if odds_data %}
+    <table>
+        <tr>
+            <th>Teams</th>
+            <th>Bookmaker</th>
+            <th>Market</th>
+            <th>Odds</th>
+        </tr>
+        {% for event in odds_data %}
+            {% for bookmaker in event.bookmakers %}
+                {% for market in bookmaker.markets %}
+                    {% for outcome in market.outcomes %}
+                        <tr>
+                            <td>{{ event.home_team }} vs {{ event.away_team }}</td>
+                            <td>{{ bookmaker.title }}</td>
+                            <td>{{ market.key }}</td>
+                            <td>{{ outcome.name }}: {{ outcome.price }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No odds data available.</p>
+    {% endif %}
+</body>
+</html>
